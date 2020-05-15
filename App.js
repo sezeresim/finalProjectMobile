@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
   Text,
   StatusBar,
 } from 'react-native';
@@ -19,7 +18,7 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         />
-        <Text>App.js</Text>
+        <Text>APP.js</Text>
       </SafeAreaView>
     </>
   );
