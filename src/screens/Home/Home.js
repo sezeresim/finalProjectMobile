@@ -1,27 +1,20 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Appbar, Avatar} from 'react-native-paper';
+import {StyleSheet, Text, View} from 'react-native';
 
-//Screens
-import ProfileScreen from '../Profile/Profile';
-import AccountScreen from '../Account/Account';
-const Stack = createStackNavigator();
 const Home = ({navigation}) => {
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{headerTitle: 'Profile'}}
-      />
-      <Stack.Screen
-        name="Account"
-        component={AccountScreen}
-        options={{headerTitle: 'Tweet'}}
-      />
-    </Stack.Navigator>
+    <View style={styles.View}>
+      <Text>Home</Text>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  View: {
+    backgroundColor: '#E5ABE8',
+    alignItems: 'center',
+    flex: 1,
+  },
+});
 
 export default Home;
