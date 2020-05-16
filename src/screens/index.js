@@ -1,0 +1,9 @@
+export {default as HomeScreen} from './Home/Home';
+export {default as LoginScreen} from './Login/Login';
+export {default as RegisterScreen} from './Register/Register';
+export {default as ForgotPasswordScreen} from './ForgetPassword/ForgetPassword';
+export {default as AccountScreen} from './Account/Account';
+export {default as FavoriteScreen} from './Favorite/Favorite';
+export {default as ProfileScreen} from './Profile/Profile';
+export {default as QuizScreen} from './Quiz/Quiz';
+export {default as ResultScreen} from './Result/Result';
