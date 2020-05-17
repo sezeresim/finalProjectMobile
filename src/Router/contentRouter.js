@@ -2,19 +2,21 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 //Screens
-import {ProfileScreen, FavoriteScreen, AccountScreen} from '../screens';
+import {ProfileScreen, AccountScreen, HomeScreen} from '../screens';
+
 //
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const ContentRouter = () => {
+//TabBarNavigation
+const TabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-
           if (route.name === 'Home') {
             iconName = focused ? 'ios-home' : 'ios-home';
           } else if (route.name === 'More') {
@@ -27,32 +29,42 @@ const ContentRouter = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: 'blue',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Home">
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={AccountScreen} />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen>
-      <Tab.Screen name="More">
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen name="Favorite" component={FavoriteScreen} />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen>
-      <Tab.Screen name="Profile">
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="More" component={AccountScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
-export default ContentRouter;
+//Navigation
+function AppNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TabNavigator"
+        component={TabNavigation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export default AppNavigator;

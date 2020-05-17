@@ -1,7 +1,6 @@
 import React from 'react';
 import Router from './Router/index';
 import {Provider as PaperProvider, DefaultTheme} from 'react-native-paper';
-
 import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
