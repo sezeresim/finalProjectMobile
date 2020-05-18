@@ -7,7 +7,7 @@ type Props = {
 
 const Background = ({children}: Props) => (
   <ImageBackground
-    // source={require('../../assets/logo.png')}
+    source={require('../../assets/1009.png')}
     resizeMode="repeat"
     style={styles.background}>
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     width: '100%',
-    backgroundColor: color.bg_color,
+    backgroundColor: color.white,
   },
   container: {
     flex: 1,

@@ -1,4 +1,4 @@
-package com.sezerde;
+package com.survey27;
 
 import android.app.Application;
 import android.content.Context;
