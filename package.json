@@ -1,5 +1,5 @@
 {
-  "name": "sezerde",
+  "name": "survey27",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,13 +11,16 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/picker": "^1.5.1",
     "@react-navigation/bottom-tabs": "^5.4.4",
     "@react-navigation/drawer": "^5.7.4",
     "@react-navigation/native": "^5.4.0",
     "@react-navigation/stack": "^5.3.5",
+    "axios": "^0.19.2",
     "jetifier": "^1.6.5",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-date-picker": "^2.7.10",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-paper": "^3.10.1",
     "react-native-reanimated": "^1.8.0",

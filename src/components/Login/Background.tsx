@@ -1,5 +1,10 @@
 import React, {memo} from 'react';
-import {ImageBackground, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import color from '../../core/colors';
 type Props = {
   children: React.ReactNode;
@@ -7,7 +12,7 @@ type Props = {
 
 const Background = ({children}: Props) => (
   <ImageBackground
-    source={require('../../assets/1009.png')}
+    // source={require('../../assets/1009.png')}
     resizeMode="repeat"
     style={styles.background}>
     <KeyboardAvoidingView style={styles.container} behavior="padding">

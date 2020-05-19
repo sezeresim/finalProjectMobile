@@ -9,6 +9,8 @@ import {theme} from '../../core/theme';
 import {emailValidator, passwordValidator} from '../../core/utils';
 import {Navigation} from '../../types';
 import color from '../../core/colors';
+import HTTP from '../../core/url';
+import Axios from 'axios';
 type Props = {
   navigation: Navigation;
 };
@@ -27,7 +29,22 @@ const LoginScreen = ({navigation}: Props) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    let loginData = {email: '', password: ''};
+    loginData.email = email.value;
+    loginData.password = password.value;
+
+    Axios.post(HTTP.LOGIN_URL, loginData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
