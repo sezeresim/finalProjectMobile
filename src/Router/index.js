@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 //Screens
 import Content from './contentRouter';
 import Login from './loginRouter';
+//Context
+import {AuthContext} from '../context/AuthContext';
 
 //Router structure provides the switch between Home Page and Login Page
 const Router = () => {
-  const [isSignedIn, setIsSegnedIn] = useState(false);
+  const authContext = useContext(AuthContext);
+  console.log(authContext.isAuth);
 
-  return isSignedIn ? <Content /> : <Login />;
+  return authContext.isAuth ? <Content /> : <Login />;
 };
 
 export default Router;

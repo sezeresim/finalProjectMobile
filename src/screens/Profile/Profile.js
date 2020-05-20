@@ -1,10 +1,14 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useContext, memo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Text} from 'react-native-paper';
+import {AuthContext} from '../../context/AuthContext';
 
 const Profile = ({navigation}) => {
+  const authContext = useContext(AuthContext);
+  console.log(authContext.userData);
   return (
     <View style={styles.View}>
-      <Text>Profile</Text>
+      <Text>Name:{authContext.userData}</Text>
     </View>
   );
 };
@@ -17,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default memo(Profile);

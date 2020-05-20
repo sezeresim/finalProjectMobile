@@ -6,11 +6,8 @@ import {
   ScrollView,
 } from 'react-native';
 import color from '../../core/colors';
-type Props = {
-  children: React.ReactNode;
-};
 
-const Background = ({children}: Props) => (
+const Background = ({children}) => (
   <ImageBackground
     // source={require('../../assets/1009.png')}
     resizeMode="repeat"

@@ -1,23 +1,29 @@
-import React, {memo, useState} from 'react';
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import React, {memo, useState, useContext} from 'react';
+import {TouchableOpacity, StyleSheet, Text, View, Alert} from 'react-native';
 import Background from '../../components/Login/Background';
 import Logo from '../../components/Login/Logo';
 import Header from '../../components/Login/Header';
 import Button from '../../components/Login/Button';
 import TextInput from '../../components/Login/TextInput';
-import {theme} from '../../core/theme';
 import {emailValidator, passwordValidator} from '../../core/utils';
-import {Navigation} from '../../types';
 import color from '../../core/colors';
 import HTTP from '../../core/url';
 import Axios from 'axios';
-type Props = {
-  navigation: Navigation;
-};
+import {AuthContext} from '../../context/AuthContext';
 
-const LoginScreen = ({navigation}: Props) => {
+const LoginScreen = ({navigation}) => {
+  const authContext = useContext(AuthContext);
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+
+  const unSuccesfullLogin = () => {
+    Alert.alert(
+      'Geçersiz Kullanıcı',
+      'Lütfen bilgileriniz kontrol ediniz',
+      [{text: 'Tamam'}],
+      {cancelable: false},
+    );
+  };
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -40,9 +46,13 @@ const LoginScreen = ({navigation}: Props) => {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
+        if (res.status === 200) {
+          authContext.login(res.data.user);
+        }
       })
       .catch(error => {
+        unSuccesfullLogin();
         console.log(error);
       });
   };
@@ -50,6 +60,7 @@ const LoginScreen = ({navigation}: Props) => {
   return (
     <Background>
       {/* <Logo /> */}
+
       <Header>Üye Girişi</Header>
 
       <TextInput
@@ -112,6 +123,12 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: color.black,
+  },
+  error: {
+    fontSize: 14,
+    color: color.red,
+    paddingHorizontal: 4,
+    paddingTop: 4,
   },
 });
 

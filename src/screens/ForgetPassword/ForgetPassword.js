@@ -2,19 +2,13 @@ import React, {memo, useState} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {emailValidator} from '../../core/utils';
 import Background from '../../components/Login/Background';
-import BackButton from '../../components/Login/BackButton';
 import Logo from '../../components/Login/Logo';
 import Header from '../../components/Login/Header';
 import TextInput from '../../components/Login/TextInput';
 import {theme} from '../../core/theme';
 import Button from '../../components/Login/Button';
-import {Navigation} from '../../types';
 
-type Props = {
-  navigation: Navigation;
-};
-
-const ForgotPasswordScreen = ({navigation}: Props) => {
+const ForgotPasswordScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
 
   const _onSendPressed = () => {
