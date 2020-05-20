@@ -11,7 +11,7 @@ const Profile = ({navigation}) => {
   return (
     <View style={styles.View}>
       <Card style={styles.Card}>
-        <Card.Title title={authContext.userData.name.toUpperCase()} />
+        <Card.Title title={authContext.userData.name} />
         <Divider />
         <Card.Content>
           <Paragraph>E-Posta = {authContext.userData.email}</Paragraph>

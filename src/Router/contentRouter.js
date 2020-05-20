@@ -18,9 +18,9 @@ const TabNavigation = () => {
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
           if (route.name === 'Home') {
-            iconName = focused ? 'ios-home' : 'ios-home';
+            iconName = focused ? 'ios-search' : 'ios-search';
           } else if (route.name === 'More') {
-            iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
+            iconName = focused ? 'ios-albums' : 'ios-albums';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'ios-person' : 'ios-person';
           }
@@ -32,9 +32,27 @@ const TabNavigation = () => {
         activeTintColor: 'black',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="More" component={AccountScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Keşfet',
+        }}
+      />
+      <Tab.Screen
+        name="More"
+        component={AccountScreen}
+        options={{
+          tabBarLabel: 'Bana Özel',
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: 'Profil',
+        }}
+      />
     </Tab.Navigator>
   );
 };
