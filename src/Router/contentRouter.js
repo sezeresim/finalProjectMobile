@@ -29,7 +29,7 @@ const TabNavigation = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'blue',
+        activeTintColor: 'black',
         inactiveTintColor: 'gray',
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -56,7 +56,7 @@ function AppNavigator() {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{headerShown: false}}
+        options={{headerShown: true}}
       />
       <Stack.Screen
         name="Account"

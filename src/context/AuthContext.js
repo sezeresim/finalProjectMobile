@@ -12,7 +12,7 @@ const AuthContextProvider = props => {
 
   const loginHandler = resData => {
     setIsAuthenticated(true);
-    setUserData(JSON.stringify(resData));
+    setUserData(resData);
     //console.log('loginHandler   ' + userData);
   };
 
