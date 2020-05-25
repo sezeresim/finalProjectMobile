@@ -31,6 +31,14 @@ const Home = ({navigation}) => {
       .catch(err => alert(err));
   };
 
+  const likeButton = id => {
+    Axios.post(HTTP.HOME_URL + '/' + id)
+      .then(res => {
+        getDataPublic();
+      })
+      .catch(err => alert(err));
+  };
+
   return (
     <View style={styles.View}>
       <Searchbar
@@ -60,7 +68,7 @@ const Home = ({navigation}) => {
                       color={color.green}
                     />
                   )}
-                  onPress={() => alert('activeted')}
+                  onPress={() => likeButton(item.id)}
                   style={{position: 'absolute', right: 0, paddingBottom: 7}}
                 />
               </Card.Actions>
