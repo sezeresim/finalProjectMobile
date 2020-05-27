@@ -20,17 +20,20 @@ const LoginScreen = ({navigation}) => {
     controlUser();
   }, []);
 
+  //control user data
+  //if device storage has one account,after run,this function works
   const controlUser = async () => {
     try {
       const savedUserDAta = JSON.parse(await AsyncStorage.getItem('userData'));
       if (savedUserDAta !== null) {
-        // setEmail(savedUserDAta.email.value);
-        // setPassword(savedUserDAta.password.value);
+        console.log(savedUserDAta);
+        loginHandler(savedUserDAta.email, savedUserDAta.password);
       }
-    } catch (e) {
-      // error reading value
+    } catch (error) {
+      console.log('kayıtlı kullanıcı yok');
     }
   };
+
   //Alert for unsuccesfulllogin
   const unSuccesfullLogin = () => {
     Alert.alert(
@@ -41,7 +44,7 @@ const LoginScreen = ({navigation}) => {
     );
   };
 
-  const _onLoginPressed = () => {
+  const loginButton = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
@@ -50,11 +53,13 @@ const LoginScreen = ({navigation}) => {
       setPassword({...password, error: passwordError});
       return;
     }
+    //For Press Button
+    loginHandler(email.value, password.value);
+  };
 
-    let loginData = {email: '', password: ''};
-    loginData.email = email.value;
-    loginData.password = password.value;
-
+  //Login Process
+  const loginHandler = (loginEmail, loginPassword) => {
+    const loginData = {email: loginEmail, password: loginPassword};
     Axios.post(HTTP.LOGIN_URL, loginData, {
       headers: {
         Accept: 'application/json',
@@ -62,7 +67,6 @@ const LoginScreen = ({navigation}) => {
       },
     })
       .then(res => {
-        //console.log(res);
         if (res.status === 200) {
           authContext.login(res.data.user, loginData);
         }
@@ -109,7 +113,7 @@ const LoginScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <Button mode="contained" onPress={_onLoginPressed}>
+      <Button mode="contained" onPress={() => loginButton()}>
         Giriş Yap
       </Button>
 

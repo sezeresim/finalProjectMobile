@@ -54,7 +54,7 @@ const Profile = ({navigation}) => {
             icon="logout"
             mode="text"
             color={color.black}
-            onPress={() => console.log('Pressed')}>
+            onPress={() => authContext.logout()}>
             Çıkış Yap
           </Button>
         </Card.Content>

@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const AuthContext = React.createContext({
   isAuth: true,
   login: () => {},
+  logout: () => {},
   data: [],
 });
 
@@ -12,7 +13,7 @@ const AuthContextProvider = props => {
   const [userData, setUserData] = useState([]);
 
   const loginHandler = (resData, loginData) => {
-    setIsAuthenticated(false);
+    setIsAuthenticated(true);
     setUserData(resData);
     storeData(loginData);
   };
@@ -20,17 +21,22 @@ const AuthContextProvider = props => {
   const storeData = async loginData => {
     try {
       await AsyncStorage.setItem('userData', JSON.stringify(loginData));
-      const value = await AsyncStorage.getItem('userData');
-      console.log(JSON.parse(value));
     } catch (error) {
       // saving error
     }
+  };
+
+  const logOutHandler = async () => {
+    console.log('remove item');
+    await AsyncStorage.removeItem('userData');
+    setIsAuthenticated(false);
   };
 
   return (
     <AuthContext.Provider
       value={{
         login: loginHandler,
+        logout: logOutHandler,
         isAuth: isAuthenticated,
         userData: userData,
       }}>
