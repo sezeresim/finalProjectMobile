@@ -1,4 +1,4 @@
-import React, {memo, useState, useContext} from 'react';
+import React, {memo, useState, useContext, useEffect} from 'react';
 import {TouchableOpacity, StyleSheet, Text, View, Alert} from 'react-native';
 import Background from '../../components/Login/Background';
 import Logo from '../../components/Login/Logo';
@@ -10,12 +10,28 @@ import color from '../../core/colors';
 import HTTP from '../../core/url';
 import Axios from 'axios';
 import {AuthContext} from '../../context/AuthContext';
-
+import AsyncStorage from '@react-native-community/async-storage';
 const LoginScreen = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
 
+  useEffect(() => {
+    controlUser();
+  }, []);
+
+  const controlUser = async () => {
+    try {
+      const savedUserDAta = JSON.parse(await AsyncStorage.getItem('userData'));
+      if (savedUserDAta !== null) {
+        // setEmail(savedUserDAta.email.value);
+        // setPassword(savedUserDAta.password.value);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+  //Alert for unsuccesfulllogin
   const unSuccesfullLogin = () => {
     Alert.alert(
       'Geçersiz Kullanıcı',
@@ -48,7 +64,7 @@ const LoginScreen = ({navigation}) => {
       .then(res => {
         //console.log(res);
         if (res.status === 200) {
-          authContext.login(res.data.user);
+          authContext.login(res.data.user, loginData);
         }
       })
       .catch(error => {

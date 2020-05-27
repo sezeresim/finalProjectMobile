@@ -41,12 +41,12 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.View}>
-      <Searchbar
+      {/* <Searchbar
         style={styles.searchBar}
         placeholder="İçerik Ara"
         // onChangeText={() => alert('search')}
         value={0}
-      />
+      /> */}
       <FlatList
         data={publicData}
         keyExtractor={(item, index) => index.toString()}

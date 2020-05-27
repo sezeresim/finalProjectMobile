@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const AuthContext = React.createContext({
   isAuth: true,
@@ -10,10 +11,20 @@ const AuthContextProvider = props => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState([]);
 
-  const loginHandler = resData => {
-    setIsAuthenticated(true);
+  const loginHandler = (resData, loginData) => {
+    setIsAuthenticated(false);
     setUserData(resData);
-    //console.log('loginHandler   ' + userData);
+    storeData(loginData);
+  };
+
+  const storeData = async loginData => {
+    try {
+      await AsyncStorage.setItem('userData', JSON.stringify(loginData));
+      const value = await AsyncStorage.getItem('userData');
+      console.log(JSON.parse(value));
+    } catch (error) {
+      // saving error
+    }
   };
 
   return (

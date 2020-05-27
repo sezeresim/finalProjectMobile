@@ -20,7 +20,7 @@ const Account = ({navigation}) => {
     Axios.get(HTTP.ACCOUNT_URL + id)
       .then(res => {
         setAccountData(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch(err => alert(err));
   };
