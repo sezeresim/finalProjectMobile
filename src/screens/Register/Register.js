@@ -1,11 +1,5 @@
-import React, {memo, useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import React, {memo, useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Background from '../../components/Login/Background';
 import Header from '../../components/Login/Header';
 import Button from '../../components/Login/Button';
