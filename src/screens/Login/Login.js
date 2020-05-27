@@ -26,11 +26,11 @@ const LoginScreen = ({navigation}) => {
     try {
       const savedUserDAta = JSON.parse(await AsyncStorage.getItem('userData'));
       if (savedUserDAta !== null) {
-        console.log(savedUserDAta);
+        //console.log(savedUserDAta);
         loginHandler(savedUserDAta.email, savedUserDAta.password);
       }
     } catch (error) {
-      console.log('kayıtlı kullanıcı yok');
+      console.log('controlUser saved Data' + error);
     }
   };
 
@@ -44,6 +44,7 @@ const LoginScreen = ({navigation}) => {
     );
   };
 
+  //Login Button
   const loginButton = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -53,7 +54,8 @@ const LoginScreen = ({navigation}) => {
       setPassword({...password, error: passwordError});
       return;
     }
-    //For Press Button
+
+    //loginHandler
     loginHandler(email.value, password.value);
   };
 
@@ -73,7 +75,6 @@ const LoginScreen = ({navigation}) => {
       })
       .catch(error => {
         unSuccesfullLogin();
-        console.log(error);
       });
   };
 

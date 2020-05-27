@@ -25,9 +25,6 @@ const RegisterScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
   const [passwordC, setPasswordC] = useState({value: '', error: ''});
-  const [selectedGender, setSelectedGender] = useState('Erkek');
-  const [selectedCountry, setSelectedCountry] = useState('Türkiye');
-  const [birthdate, setBirthDate] = useState(new Date());
 
   const registerApi = (
     nameRegister,
@@ -35,11 +32,12 @@ const RegisterScreen = ({navigation}) => {
     passwordRegister,
     passwordCRegister,
   ) => {
-    let registerData = {name: '', email: '', password: '', c_password: ''};
-    registerData.name = nameRegister;
-    registerData.email = emailRegister;
-    registerData.password = passwordRegister;
-    registerData.c_password = passwordCRegister;
+    let registerData = {
+      name: nameRegister,
+      email: emailRegister,
+      password: passwordRegister,
+      c_password: passwordCRegister,
+    };
 
     Axios.post(HTTP.REGISTER_URL, registerData, {
       headers: {
@@ -47,7 +45,7 @@ const RegisterScreen = ({navigation}) => {
         'Content-Type': 'application/json',
       },
     }).then(res => {
-      console.log(res);
+      //console.log(res);
       if (res.status === 200) {
         navigation.navigate('Dashboard');
       }

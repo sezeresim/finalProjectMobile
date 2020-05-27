@@ -1,9 +1,8 @@
-import React, {useContext, memo, useEffect, useState} from 'react';
+import React, {useContext, memo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   Text,
   Divider,
-  Title,
   Card,
   Paragraph,
   Switch,
@@ -16,8 +15,14 @@ const Profile = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const [themeSwitch, setThemeSwitch] = useState(false);
 
-  const onToggleSwitch = () => {
+  //toggle switch
+  const toggleSwitch = () => {
     themeSwitch ? setThemeSwitch(false) : setThemeSwitch(true);
+  };
+
+  //logout button,depens on autContext
+  const logOutButton = () => {
+    authContext.logout();
   };
 
   return (
@@ -46,7 +51,7 @@ const Profile = ({navigation}) => {
         <Divider />
         <Card.Content style={styles.preference}>
           <Text style={styles.text}>Gece Modu</Text>
-          <Switch value={themeSwitch} onValueChange={onToggleSwitch} />
+          <Switch value={themeSwitch} onValueChange={toggleSwitch} />
         </Card.Content>
         <Divider />
         <Card.Content style={styles.logOutButton}>
@@ -54,7 +59,7 @@ const Profile = ({navigation}) => {
             icon="logout"
             mode="text"
             color={color.black}
-            onPress={() => authContext.logout()}>
+            onPress={() => logOutButton()}>
             Çıkış Yap
           </Button>
         </Card.Content>
