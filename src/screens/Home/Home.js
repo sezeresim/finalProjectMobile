@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   Badge,
+  TouchableRipple,
 } from 'react-native-paper';
 import Axios from 'axios';
 import HTTP from '../../core/url';
@@ -51,29 +52,39 @@ const Home = ({navigation}) => {
         data={publicData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
-          <Card style={styles.Card}>
-            <Card.Title title={item.title} />
-            <Badge size={30} style={styles.Badge}>
-              {item.like_count}
-            </Badge>
-            <Divider />
-            <Card.Content style={styles.cardContent}>
-              <Paragraph>{item.purpose}</Paragraph>
-              <Card.Actions>
-                <IconButton
-                  icon={({}) => (
-                    <Ionicons
-                      name={'ios-arrow-up'}
-                      size={40}
-                      color={color.green}
-                    />
-                  )}
-                  onPress={() => likeButton(item.id)}
-                  style={{position: 'absolute', right: 0, paddingBottom: 7}}
-                />
-              </Card.Actions>
-            </Card.Content>
-          </Card>
+          <TouchableRipple
+            onPress={() =>
+              navigation.navigate('Quiz', {
+                title: item.title,
+                // questions: genelkultur,
+              })
+            }
+            rippleColor="rgba(0,0,0, .05)">
+            <Card style={styles.Card}>
+              <Card.Title title={item.title} />
+              <Badge size={30} style={styles.Badge}>
+                {item.like_count}
+              </Badge>
+
+              <Divider />
+              <Card.Content style={styles.cardContent}>
+                <Paragraph>{item.purpose}</Paragraph>
+                <Card.Actions>
+                  <IconButton
+                    icon={({}) => (
+                      <Ionicons
+                        name={'ios-arrow-up'}
+                        size={40}
+                        color={color.green}
+                      />
+                    )}
+                    onPress={() => likeButton(item.id)}
+                    style={{position: 'absolute', right: 0, paddingBottom: 7}}
+                  />
+                </Card.Actions>
+              </Card.Content>
+            </Card>
+          </TouchableRipple>
         )}
       />
     </View>

@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import {ProfileScreen, AccountScreen, HomeScreen} from '../screens';
+import {ProfileScreen, AccountScreen, HomeScreen, QuizScreen} from '../screens';
 
 //
 const Stack = createStackNavigator();
@@ -80,6 +80,13 @@ function AppNavigator() {
         name="Account"
         component={AccountScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={QuizScreen}
+        options={{
+          headerTitle: 'sezer',
+        }}
       />
     </Stack.Navigator>
   );
