@@ -11,6 +11,7 @@ import {
   IconButton,
   Badge,
   TouchableRipple,
+  Alert,
 } from 'react-native-paper';
 import Axios from 'axios';
 import HTTP from '../../core/url';
@@ -26,18 +27,18 @@ const Home = ({navigation}) => {
 
   const getDataPublic = async callback => {
     await Axios.get(HTTP.HOME_URL)
-      .then(res => {
-        setPublicData(res.data.data.reverse());
+      .then(response => {
+        setPublicData(response.data.data.reverse());
       })
-      .catch(err => alert(err));
+      .catch(error => Alert.alert(error));
   };
 
   const likeButton = id => {
     Axios.post(HTTP.HOME_URL + '/' + id)
-      .then(res => {
+      .then(response => {
         getDataPublic();
       })
-      .catch(err => alert(err));
+      .catch(error => Alert.alert(error));
   };
 
   return (
@@ -56,7 +57,7 @@ const Home = ({navigation}) => {
             onPress={() =>
               navigation.navigate('Quiz', {
                 title: item.title,
-                // questions: genelkultur,
+                surveyID: item.id,
               })
             }
             rippleColor="rgba(0,0,0, .05)">

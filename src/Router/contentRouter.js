@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import color from '../core/colors';
 //Screens
 import {ProfileScreen, AccountScreen, HomeScreen, QuizScreen} from '../screens';
 
@@ -69,24 +69,31 @@ function AppNavigator() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{headerShown: false}}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{headerShown: true}}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name="Account"
         component={AccountScreen}
-        options={{headerShown: false}}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name="Quiz"
         component={QuizScreen}
-        options={{
-          headerTitle: 'sezer',
-        }}
+        options={({route}) => ({
+          title: route.params.title,
+          headerStyle: {
+            backgroundColor: color.bg_color,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        })}
       />
     </Stack.Navigator>
   );
