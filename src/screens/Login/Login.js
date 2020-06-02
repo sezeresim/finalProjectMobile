@@ -11,6 +11,7 @@ import HTTP from '../../core/url';
 import Axios from 'axios';
 import {AuthContext} from '../../context/AuthContext';
 import AsyncStorage from '@react-native-community/async-storage';
+
 const LoginScreen = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const [email, setEmail] = useState({value: '', error: ''});
