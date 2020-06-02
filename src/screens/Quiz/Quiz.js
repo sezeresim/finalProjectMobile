@@ -1,5 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect, useContext, useLayoutEffect} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import {
   Text,
@@ -9,6 +15,7 @@ import {
   RadioButton,
   TouchableRipple,
   Button,
+  ActivityIndicator,
 } from 'react-native-paper';
 import color from '../../core/colors';
 import HTTP from '../../core/url';
@@ -23,23 +30,12 @@ const Quiz = ({route, navigation}) => {
     {name: authContext.userData.name, email: authContext.userData.email},
   ]);
   const [checked, setChecked] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getQuestions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useLayoutEffect(() => {
-    questions.map(item => nullAnswers(item.id));
-    console.log(checked);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const nullAnswers = questionID => {
-    const newArray = [...checked];
-    newArray.push({questionID: questionID, answerID: -1});
-    setChecked(newArray);
-  };
 
   const getQuestions = () => {
     Axios.get(HTTP.SURVEY_URL + surveyID)
@@ -47,6 +43,9 @@ const Quiz = ({route, navigation}) => {
         let apiQuetions = response.data.questions.questions;
         setQuestions(apiQuetions);
         console.log(apiQuetions);
+      })
+      .then(() => {
+        setLoaded(true);
       })
       .catch(error => Alert.alert(error));
   };
@@ -64,43 +63,58 @@ const Quiz = ({route, navigation}) => {
 
   return (
     <View style={styles.View}>
-      <FlatList
-        data={questions}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item, index}) => (
-          <Card key={item.id} style={styles.Card}>
-            <Card.Title title={item.question + 'index' + index} />
-            <Divider />
-            <Card.Content style={styles.cardContent}>
-              {item.answers.map(answer => (
-                <View
-                  key={answer.id}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <RadioButton
+      {loaded ? (
+        <FlatList
+          data={questions}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => (
+            <Card key={item.id} style={styles.Card}>
+              <Card.Title title={item.question + 'index' + index} />
+              <Divider />
+              <Card.Content style={styles.cardContent}>
+                {item.answers.map(answer => (
+                  <View
                     key={answer.id}
-                    value={answer.id}
-                    status={
-                      checked[index] === answer.id ? 'checked' : 'unchecked'
-                    }
-                    onPress={() => {
-                      changeAnswers(item.id, answer.id, index);
-                    }}
-                  />
-                  <Text>{answer.answer}</Text>
-                </View>
-              ))}
-            </Card.Content>
-          </Card>
-        )}
-      />
-      <Card>
-        <Button mode="contained" onPress={postAnswers}>
-          Tamamla
-        </Button>
-      </Card>
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <RadioButton
+                      key={answer.id}
+                      value={answer.id}
+                      status={
+                        checked === null
+                          ? 'unchecked'
+                          : checked[index] === answer.id
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      onPress={() => {
+                        changeAnswers(item.id, answer.id, index);
+                      }}
+                    />
+                    <Text>{answer.answer}</Text>
+                  </View>
+                ))}
+              </Card.Content>
+            </Card>
+          )}
+        />
+      ) : (
+        <ActivityIndicator
+          style={(styles.Card, {flex: 1})}
+          size="large"
+          animating={true}
+          color={color.bg_color}
+        />
+      )}
+      {loaded ? (
+        <Card>
+          <Button mode="contained" onPress={postAnswers}>
+            Tamamla
+          </Button>
+        </Card>
+      ) : null}
     </View>
   );
 };
