@@ -38,35 +38,41 @@ const Quiz = ({route, navigation}) => {
   const {surveyID} = route.params;
   const [loaded, setLoaded] = useState(false);
   const [checked, setChecked] = useState([]);
-  const [formData, setFormData] = useState([
-    {name: authContext.userData.name, email: authContext.userData.email},
-  ]);
 
   useEffect(() => {
     getQuestions();
-    console.log('useffect');
-  }, [checked, getQuestions]);
+  }, [getQuestions]);
 
+  useEffect(() => {
+    let answerArray = [...checked];
+    questions.map(
+      (item, index) => (
+        (answerArray[index] = {questionID: -1, answerID: -1}),
+        setChecked(answerArray)
+      ),
+    );
+  }, [questions]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getQuestions = useCallback(() => {
     Axios.get(HTTP.SURVEY_URL + surveyID)
       .then(response => {
         dispatch({type: 'SET', questions: response.data.questions});
-        setLoaded(true);
       })
       .catch(error => {
         console.log(error);
-      });
+      })
+      .finally(() => setLoaded(true));
   }, [surveyID]);
 
   const postSurvey = () => {
-    console.log(formData);
+    console.log(checked);
   };
 
   const changeAnswers = (questionID, answerID, index) => {
-    const newArray = [...checked];
-    newArray[index] = {questionID: questionID, answerID: answerID};
-    setChecked(newArray);
-    console.log(checked);
+    let answerArray = [...checked];
+    answerArray[index] = {questionID: questionID, answerID: answerID};
+    setChecked(answerArray);
   };
 
   const renderQuestionCard = (item, index) => {
@@ -86,7 +92,11 @@ const Quiz = ({route, navigation}) => {
               <RadioButton
                 key={answer.id}
                 value={answer.id}
-                status={checked[index] === answer.id ? 'checked' : 'unchecked'}
+                status={
+                  checked[index].answerID === answer.id
+                    ? 'checked'
+                    : 'unchecked'
+                }
                 onPress={() => {
                   changeAnswers(item.id, answer.id, index);
                 }}
@@ -105,7 +115,7 @@ const Quiz = ({route, navigation}) => {
         <FlatList
           data={questions}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={(item, index) => renderQuestionCard(item, index)}
+          renderItem={({item, index}) => renderQuestionCard(item, index)}
         />
       ) : (
         <ActivityIndicator
