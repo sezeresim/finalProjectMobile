@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import {
-  Text,
   Card,
-  Title,
   Paragraph,
-  Searchbar,
   Divider,
-  Button,
   IconButton,
   Badge,
   TouchableRipple,

@@ -7,7 +7,6 @@ import {
   RegisterScreen,
   ForgotPasswordScreen,
   HomeScreen,
-  Dashboard,
 } from '../screens';
 
 const Stack = createStackNavigator();
@@ -23,11 +22,6 @@ const loginRouter = () => {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Dashboard"
-        component={Dashboard}
         options={{headerShown: false}}
       />
       <Stack.Screen

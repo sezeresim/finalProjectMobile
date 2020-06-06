@@ -1,19 +1,16 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {
   useState,
   useEffect,
   useContext,
-  useLayoutEffect,
-  useRef,
+  useCallback,
+  useReducer,
 } from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import {
   Text,
   Card,
   Divider,
-  Alert,
   RadioButton,
-  TouchableRipple,
   Button,
   ActivityIndicator,
 } from 'react-native-paper';
@@ -22,35 +19,46 @@ import HTTP from '../../core/url';
 import Axios from 'axios';
 import {AuthContext} from '../../context/AuthContext';
 
+const questionReducer = (currentQuestions, action) => {
+  switch (action.type) {
+    case 'SET':
+      return action.questions;
+    // case 'ADD':
+    // //return [...currentIngredients, action.ingredient];
+    // case 'DELETE':
+    // //return currentIngredients.filter(ing => ing.id !== action.id);
+    default:
+      throw new Error('Should not get there!');
+  }
+};
+
 const Quiz = ({route, navigation}) => {
   const authContext = useContext(AuthContext);
+  const [questions, dispatch] = useReducer(questionReducer, []);
   const {surveyID} = route.params;
-  const [questions, setQuestions] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [checked, setChecked] = useState([]);
   const [formData, setFormData] = useState([
     {name: authContext.userData.name, email: authContext.userData.email},
   ]);
-  const [checked, setChecked] = useState([]);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getQuestions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log('useffect');
+  }, [checked, getQuestions]);
 
-  const getQuestions = () => {
+  const getQuestions = useCallback(() => {
     Axios.get(HTTP.SURVEY_URL + surveyID)
       .then(response => {
-        let apiQuetions = response.data.questions.questions;
-        setQuestions(apiQuetions);
-        console.log(apiQuetions);
-      })
-      .then(() => {
+        dispatch({type: 'SET', questions: response.data.questions});
         setLoaded(true);
       })
-      .catch(error => Alert.alert(error));
-  };
+      .catch(error => {
+        console.log(error);
+      });
+  }, [surveyID]);
 
-  const postAnswers = () => {
+  const postSurvey = () => {
     console.log(formData);
   };
 
@@ -61,44 +69,43 @@ const Quiz = ({route, navigation}) => {
     console.log(checked);
   };
 
+  const renderQuestionCard = (item, index) => {
+    return (
+      <Card key={item.id} style={styles.Card}>
+        <Card.Title title={item.question + 'index' + index} />
+        <Divider />
+        <Card.Content style={styles.cardContent}>
+          {item.answers.map(answer => (
+            <View
+              key={answer.id}
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <RadioButton
+                key={answer.id}
+                value={answer.id}
+                status={checked[index] === answer.id ? 'checked' : 'unchecked'}
+                onPress={() => {
+                  changeAnswers(item.id, answer.id, index);
+                }}
+              />
+              <Text>{answer.answer}</Text>
+            </View>
+          ))}
+        </Card.Content>
+      </Card>
+    );
+  };
+
   return (
     <View style={styles.View}>
       {loaded ? (
         <FlatList
           data={questions}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => (
-            <Card key={item.id} style={styles.Card}>
-              <Card.Title title={item.question + 'index' + index} />
-              <Divider />
-              <Card.Content style={styles.cardContent}>
-                {item.answers.map(answer => (
-                  <View
-                    key={answer.id}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <RadioButton
-                      key={answer.id}
-                      value={answer.id}
-                      status={
-                        checked === null
-                          ? 'unchecked'
-                          : checked[index] === answer.id
-                          ? 'checked'
-                          : 'unchecked'
-                      }
-                      onPress={() => {
-                        changeAnswers(item.id, answer.id, index);
-                      }}
-                    />
-                    <Text>{answer.answer}</Text>
-                  </View>
-                ))}
-              </Card.Content>
-            </Card>
-          )}
+          renderItem={(item, index) => renderQuestionCard(item, index)}
         />
       ) : (
         <ActivityIndicator
@@ -110,7 +117,7 @@ const Quiz = ({route, navigation}) => {
       )}
       {loaded ? (
         <Card>
-          <Button mode="contained" onPress={postAnswers}>
+          <Button mode="contained" onPress={postSurvey}>
             Tamamla
           </Button>
         </Card>
@@ -152,4 +159,5 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
   },
 });
+
 export default Quiz;

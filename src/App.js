@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from './Router/index';
+import Router from './Router';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthContextProvider from './context/AuthContext';

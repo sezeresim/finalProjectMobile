@@ -41,7 +41,7 @@ const RegisterScreen = ({navigation}) => {
     }).then(res => {
       //console.log(res);
       if (res.status === 200) {
-        navigation.navigate('Dashboard');
+        navigation.navigate('Login');
       }
     });
   };

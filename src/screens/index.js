@@ -7,4 +7,3 @@ export {default as FavoriteScreen} from './Favorite/Favorite';
 export {default as ProfileScreen} from './Profile/Profile';
 export {default as QuizScreen} from './Quiz/Quiz';
 export {default as ResultScreen} from './Result/Result';
-export {default as Dashboard} from './Dashboard/Dashboard';
