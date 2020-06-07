@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 
-const Fovorite = ({navigation}) => {
+const Fovorite = ({route, navigation}) => {
+  const {title} = route.params;
   return (
     <View style={styles.View}>
-      <Text>This is Login Screen</Text>
+      <Text>{title}</Text>
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Account')}

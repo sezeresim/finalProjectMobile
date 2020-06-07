@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useReducer,
 } from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {StyleSheet, View, FlatList, Alert} from 'react-native';
 import {
   Text,
   Card,
@@ -35,7 +35,7 @@ const questionReducer = (currentQuestions, action) => {
 const Quiz = ({route, navigation}) => {
   const authContext = useContext(AuthContext);
   const [questions, dispatch] = useReducer(questionReducer, []);
-  const {surveyID} = route.params;
+  const {surveyID, title} = route.params;
   const [loaded, setLoaded] = useState(false);
   const [checked, setChecked] = useState([]);
 
@@ -47,7 +47,7 @@ const Quiz = ({route, navigation}) => {
     let answerArray = [...checked];
     questions.map(
       (item, index) => (
-        (answerArray[index] = {questionID: item.id, answerID: -1}),
+        (answerArray[index] = {question_id: item.id, answer_id: -1}),
         setChecked(answerArray)
       ),
     );
@@ -72,26 +72,31 @@ const Quiz = ({route, navigation}) => {
         name: authContext.userData.name,
         email: authContext.userData.email,
       },
-      responses: {
-        questions,
-      },
+      responses: checked,
     };
+    console.log(checked);
+    console.log(surveyData);
     Axios.post(HTTP.SURVEY_URL + surveyID, surveyData, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then(res => {
-      //console.log(res);
-      if (res.status === 200) {
-        navigation.navigate('Result');
-      }
-    });
+    })
+      .then(response => {
+        if (response.status === 200) {
+          navigation.navigate('Result', {
+            title: title,
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const setAnswers = (questionID, answerID, index) => {
     let answerArray = [...checked];
-    answerArray[index] = {questionID: questionID, answerID: answerID};
+    answerArray[index] = {question_id: questionID, answer_id: answerID};
     setChecked(answerArray);
   };
 
@@ -113,7 +118,7 @@ const Quiz = ({route, navigation}) => {
                 key={answer.id}
                 value={answer.id}
                 status={
-                  checked[index].answerID === answer.id
+                  checked[index].answer_id === answer.id
                     ? 'checked'
                     : 'unchecked'
                 }

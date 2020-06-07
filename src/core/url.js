@@ -1,5 +1,5 @@
 const BASE_URL = 'http://sezer.herokuapp.com/api';
-const LOGIN_URL = 'http://sezer.herokuapp.com/api/auth/login';
+const LOGIN_URL = BASE_URL + '/auth/login';
 const REGISTER_URL = BASE_URL + '/auth/register';
 const HOME_URL = BASE_URL + '/home';
 const PROFILE_URL = BASE_URL + '/auth/getuser';
