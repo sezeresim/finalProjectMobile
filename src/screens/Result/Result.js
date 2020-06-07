@@ -2,14 +2,11 @@ import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 
 const Fovorite = ({route, navigation}) => {
-  const {title} = route.params;
+  const {title, data} = route.params;
   return (
     <View style={styles.View}>
       <Text>{title}</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Account')}
-      />
+      <Text>{data}</Text>
     </View>
   );
 };

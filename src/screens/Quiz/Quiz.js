@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 import React, {
   useState,
   useEffect,
@@ -47,7 +48,7 @@ const Quiz = ({route, navigation}) => {
     let answerArray = [...checked];
     questions.map(
       (item, index) => (
-        (answerArray[index] = {question_id: item.id, answer_id: -1}),
+        (answerArray[index] = {answer_id: -1, question_id: item.id}),
         setChecked(answerArray)
       ),
     );
@@ -67,16 +68,15 @@ const Quiz = ({route, navigation}) => {
   }, [surveyID]);
 
   const postSurvey = () => {
-    let surveyData = {
+    const surveyData = {
       survey: {
         name: authContext.userData.name,
         email: authContext.userData.email,
       },
       responses: checked,
     };
-    console.log(checked);
-    console.log(surveyData);
-    Axios.post(HTTP.SURVEY_URL + surveyID, surveyData, {
+    console.log(JSON.stringify(surveyData));
+    Axios.post(HTTP.SURVEY_URL + surveyID, JSON.stringify(surveyData), {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -86,6 +86,7 @@ const Quiz = ({route, navigation}) => {
         if (response.status === 200) {
           navigation.navigate('Result', {
             title: title,
+            data: response.data,
           });
         }
       })
@@ -96,7 +97,7 @@ const Quiz = ({route, navigation}) => {
 
   const setAnswers = (questionID, answerID, index) => {
     let answerArray = [...checked];
-    answerArray[index] = {question_id: questionID, answer_id: answerID};
+    answerArray[index] = {answer_id: answerID, question_id: questionID};
     setChecked(answerArray);
   };
 
