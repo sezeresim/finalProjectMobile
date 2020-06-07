@@ -39,6 +39,10 @@ const Quiz = ({route, navigation}) => {
   const {surveyID, title} = route.params;
   const [loaded, setLoaded] = useState(false);
   const [checked, setChecked] = useState([]);
+  const userData = {
+    name: authContext.userData.name,
+    email: authContext.userData.email,
+  };
 
   useEffect(() => {
     getQuestions();
@@ -69,29 +73,20 @@ const Quiz = ({route, navigation}) => {
 
   const postSurvey = () => {
     const surveyData = {
-      survey: {
-        name: authContext.userData.name,
-        email: authContext.userData.email,
-      },
+      survey: userData,
       responses: checked,
     };
-    console.log(JSON.stringify(surveyData));
-    Axios.post(HTTP.SURVEY_URL + surveyID, JSON.stringify(surveyData), {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
+    console.log(surveyData);
+    Axios.post(HTTP.SURVEY_URL + surveyID, surveyData)
       .then(response => {
         if (response.status === 200) {
           navigation.navigate('Result', {
             title: title,
-            data: response.data,
           });
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.message);
       });
   };
 

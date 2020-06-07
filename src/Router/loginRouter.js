@@ -15,7 +15,7 @@ const loginRouter = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="LoginScreen"
+        name="Login"
         component={LoginScreen}
         options={{headerShown: false}}
       />
