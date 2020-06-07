@@ -4,7 +4,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../core/colors';
 //Screens
-import {ProfileScreen, AccountScreen, HomeScreen, QuizScreen} from '../screens';
+import {
+  ProfileScreen,
+  AccountScreen,
+  HomeScreen,
+  QuizScreen,
+  ResultScreen,
+} from '../screens';
 
 //
 const Stack = createStackNavigator();
@@ -94,6 +100,11 @@ function AppNavigator() {
             fontWeight: 'bold',
           },
         })}
+      />
+      <Stack.Screen
+        name="Result"
+        component={ResultScreen}
+        // options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

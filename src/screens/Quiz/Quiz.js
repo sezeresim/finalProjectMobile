@@ -47,10 +47,11 @@ const Quiz = ({route, navigation}) => {
     let answerArray = [...checked];
     questions.map(
       (item, index) => (
-        (answerArray[index] = {questionID: -1, answerID: -1}),
+        (answerArray[index] = {questionID: item.id, answerID: -1}),
         setChecked(answerArray)
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,10 +67,29 @@ const Quiz = ({route, navigation}) => {
   }, [surveyID]);
 
   const postSurvey = () => {
-    console.log(checked);
+    let surveyData = {
+      survey: {
+        name: authContext.userData.name,
+        email: authContext.userData.email,
+      },
+      responses: {
+        questions,
+      },
+    };
+    Axios.post(HTTP.SURVEY_URL + surveyID, surveyData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(res => {
+      //console.log(res);
+      if (res.status === 200) {
+        navigation.navigate('Result');
+      }
+    });
   };
 
-  const changeAnswers = (questionID, answerID, index) => {
+  const setAnswers = (questionID, answerID, index) => {
     let answerArray = [...checked];
     answerArray[index] = {questionID: questionID, answerID: answerID};
     setChecked(answerArray);
@@ -98,7 +118,7 @@ const Quiz = ({route, navigation}) => {
                     : 'unchecked'
                 }
                 onPress={() => {
-                  changeAnswers(item.id, answer.id, index);
+                  setAnswers(item.id, answer.id, index);
                 }}
               />
               <Text>{answer.answer}</Text>

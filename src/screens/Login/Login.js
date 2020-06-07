@@ -1,7 +1,6 @@
 import React, {memo, useState, useContext, useEffect} from 'react';
 import {TouchableOpacity, StyleSheet, Text, View, Alert} from 'react-native';
 import Background from '../../components/Login/Background';
-import Logo from '../../components/Login/Logo';
 import Header from '../../components/Login/Header';
 import Button from '../../components/Login/Button';
 import TextInput from '../../components/Login/TextInput';
@@ -19,6 +18,7 @@ const LoginScreen = ({navigation}) => {
 
   useEffect(() => {
     controlUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //control user data
