@@ -104,7 +104,7 @@ function AppNavigator() {
       <Stack.Screen
         name="Result"
         component={ResultScreen}
-        // options={{headerShown: false}}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

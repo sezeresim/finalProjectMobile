@@ -14,6 +14,7 @@ import {
   RadioButton,
   Button,
   ActivityIndicator,
+  FAB,
 } from 'react-native-paper';
 import color from '../../core/colors';
 import HTTP from '../../core/url';
@@ -39,9 +40,10 @@ const Quiz = ({route, navigation}) => {
   const {surveyID, title} = route.params;
   const [loaded, setLoaded] = useState(false);
   const [checked, setChecked] = useState([]);
+  const [sendButton, setSendButton] = useState(false);
   const userData = {
     name: authContext.userData.name,
-    email: authContext.userData.email,
+    email: authContext.userData.email + 'ffs',
   };
 
   useEffect(() => {
@@ -94,12 +96,19 @@ const Quiz = ({route, navigation}) => {
     let answerArray = [...checked];
     answerArray[index] = {answer_id: answerID, question_id: questionID};
     setChecked(answerArray);
+    controlSendButton(index, questions.length);
+  };
+
+  const controlSendButton = (answerLength, questionLength) => {
+    if (questionLength === answerLength + 1) {
+      setSendButton(true);
+    }
   };
 
   const renderQuestionCard = (item, index) => {
     return (
       <Card key={item.id} style={styles.Card}>
-        <Card.Title title={item.question + 'index' + index} />
+        <Card.Title title={item.question} />
         <Divider />
         <Card.Content style={styles.cardContent}>
           {item.answers.map(answer => (
@@ -146,13 +155,15 @@ const Quiz = ({route, navigation}) => {
           color={color.bg_color}
         />
       )}
-      {loaded ? (
-        <Card>
-          <Button mode="contained" onPress={postSurvey}>
-            Tamamla
-          </Button>
-        </Card>
-      ) : null}
+
+      <FAB
+        visible={sendButton}
+        color={color.black}
+        label="Tamamla"
+        style={styles.fab}
+        icon="send"
+        onPress={postSurvey}
+      />
     </View>
   );
 };
@@ -188,6 +199,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
     backgroundColor: color.white,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 

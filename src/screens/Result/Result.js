@@ -1,19 +1,31 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Text, Divider} from 'react-native-paper';
+import color from '../../core/colors';
 
 const Fovorite = ({route, navigation}) => {
-  const {title, data} = route.params;
+  const {title} = route.params;
   return (
     <View style={styles.View}>
-      <Text>{title}</Text>
-      <Text>{data}</Text>
+      <Text style={styles.Text}>{title} için cevabınız alındı</Text>
+      <Divider />
+      <Text style={styles.Text}>Anasayfa</Text>
+      <Divider />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   View: {
-    backgroundColor: 'white',
+    backgroundColor: color.white,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Text: {
+    fontSize: 30,
+    color: color.green,
   },
 });
 

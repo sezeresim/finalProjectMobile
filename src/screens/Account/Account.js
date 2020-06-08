@@ -18,11 +18,11 @@ const Account = ({navigation}) => {
 
   const getAccountData = () => {
     Axios.get(HTTP.ACCOUNT_URL + id)
-      .then(res => {
-        setAccountData(res.data.data);
-        // console.log(res.data.data);
+      .then(response => {
+        setAccountData(response.data.data);
+        console.log(response.data.data);
       })
-      .catch(err => alert(err));
+      .catch(error => alert(error));
   };
 
   return (
@@ -54,15 +54,6 @@ const Account = ({navigation}) => {
             </DataTable.Row>
           )}
         />
-
-        {/* <DataTable.Pagination
-          page={1}
-          numberOfPages={3}
-          onPageChange={page => {
-            console.log(page);
-          }}
-          label="1-2 of 6"
-        /> */}
       </DataTable>
     </View>
   );
