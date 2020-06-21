@@ -66,7 +66,6 @@ const RegisterScreen = ({navigation}) => {
   return (
     <Background>
       <Header>Üye Ol</Header>
-
       <TextInput
         label="İsim "
         returnKeyType="next"
@@ -75,7 +74,6 @@ const RegisterScreen = ({navigation}) => {
         error={!!name.error}
         errorText={name.error}
       />
-
       <TextInput
         label="E-Posta"
         returnKeyType="next"
@@ -106,11 +104,9 @@ const RegisterScreen = ({navigation}) => {
         errorText={passwordC.error}
         secureTextEntry
       />
-
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
         Üye Ol
       </Button>
-
       <View style={styles.row}>
         <Text style={styles.label}>Hesabım Var? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>

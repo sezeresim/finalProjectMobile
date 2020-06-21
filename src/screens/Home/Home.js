@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Home = ({navigation}) => {
   const [publicData, setPublicData] = useState([]);
-
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     getDataPublic();
   }, []);
@@ -25,6 +25,7 @@ const Home = ({navigation}) => {
     await Axios.get(HTTP.HOME_URL)
       .then(response => {
         setPublicData(response.data.data.reverse());
+        setRefresh(false);
       })
       .catch(error => Alert.alert(error));
   };
@@ -37,6 +38,10 @@ const Home = ({navigation}) => {
       .catch(error => Alert.alert(error));
   };
 
+  const refreshHandle = () => {
+    setRefresh(true);
+    getDataPublic();
+  };
   return (
     <View style={styles.View}>
       {/* <Searchbar
@@ -83,6 +88,8 @@ const Home = ({navigation}) => {
             </Card>
           </TouchableRipple>
         )}
+        refreshing={refresh}
+        onRefresh={() => refreshHandle()}
       />
     </View>
   );

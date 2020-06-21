@@ -81,10 +81,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <Background>
-      {/* <Logo /> */}
-
       <Header>Üye Girişi</Header>
-
       <TextInput
         label="E-Posta"
         returnKeyType="next"
@@ -97,7 +94,6 @@ const LoginScreen = ({navigation}) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
-
       <TextInput
         label="Şifre"
         returnKeyType="done"
@@ -107,18 +103,15 @@ const LoginScreen = ({navigation}) => {
         errorText={password.error}
         secureTextEntry
       />
-
       <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ForgotPasswordScreen')}>
           <Text style={styles.label}>Şifremi unuttum</Text>
         </TouchableOpacity>
       </View>
-
       <Button mode="contained" onPress={() => loginButton()}>
         Giriş Yap
       </Button>
-
       <View style={styles.row}>
         <Text style={styles.label}>Hesabım Yok </Text>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>

@@ -11,6 +11,7 @@ const Account = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const [accountData, setAccountData] = useState([]);
   const id = authContext.userData.id;
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     getAccountData();
@@ -53,6 +54,7 @@ const Account = ({navigation}) => {
               </DataTable.Cell>
             </DataTable.Row>
           )}
+          refreshing={refresh}
         />
       </DataTable>
     </View>

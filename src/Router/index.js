@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 
 //Screens
-import Content from './contentRouter';
-import Login from './loginRouter';
+import ContentRouter from './contentRouter';
+import LoginRouter from './loginRouter';
 
 //Context
 import {AuthContext} from '../context/AuthContext';
@@ -11,7 +11,7 @@ import {AuthContext} from '../context/AuthContext';
 const Router = () => {
   const authContext = useContext(AuthContext);
 
-  return authContext.isAuth ? <Content /> : <Login />;
+  return authContext.isAuth ? <ContentRouter /> : <LoginRouter />;
 };
 
 export default Router;
