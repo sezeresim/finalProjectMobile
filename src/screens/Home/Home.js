@@ -8,6 +8,7 @@ import {
   Badge,
   TouchableRipple,
   Alert,
+  Searchbar,
 } from 'react-native-paper';
 import Axios from 'axios';
 import HTTP from '../../core/url';
@@ -17,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Home = ({navigation}) => {
   const [publicData, setPublicData] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   useEffect(() => {
     getDataPublic();
   }, []);
@@ -42,14 +44,19 @@ const Home = ({navigation}) => {
     setRefresh(true);
     getDataPublic();
   };
+
+  const searchHandle = query => {
+    setSearchQuery(query);
+  };
+
   return (
     <View style={styles.View}>
-      {/* <Searchbar
+      <Searchbar
         style={styles.searchBar}
         placeholder="İçerik Ara"
-        // onChangeText={() => alert('search')}
-        value={0}
-      /> */}
+        onChangeText={searchHandle}
+        value={searchQuery}
+      />
       <FlatList
         data={publicData}
         keyExtractor={(item, index) => index.toString()}

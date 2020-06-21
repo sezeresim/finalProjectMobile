@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
-import {Text, DataTable} from 'react-native-paper';
+import {DataTable} from 'react-native-paper';
 import color from '../../core/colors';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import HTTP from '../../core/url';
@@ -22,10 +22,14 @@ const Account = ({navigation}) => {
       .then(response => {
         setAccountData(response.data.data);
         console.log(response.data.data);
+        setAccountData(false);
       })
       .catch(error => alert(error));
   };
-
+  const refreshHandle = () => {
+    setRefresh(true);
+    getAccountData();
+  };
   return (
     <View style={styles.View}>
       <DataTable>
@@ -39,7 +43,15 @@ const Account = ({navigation}) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <DataTable.Row>
-              <DataTable.Cell>{item.title}</DataTable.Cell>
+              <DataTable.Cell
+                onPress={() =>
+                  navigation.navigate('Quiz', {
+                    title: item.title,
+                    surveyID: item.question_area_id,
+                  })
+                }>
+                {item.title}
+              </DataTable.Cell>
               <DataTable.Cell numeric>{item.last_date}</DataTable.Cell>
               <DataTable.Cell numeric>
                 {item.complete ? (
@@ -55,6 +67,7 @@ const Account = ({navigation}) => {
             </DataTable.Row>
           )}
           refreshing={refresh}
+          onRefresh={() => refreshHandle()}
         />
       </DataTable>
     </View>
