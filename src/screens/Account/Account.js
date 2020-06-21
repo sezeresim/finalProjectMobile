@@ -22,7 +22,7 @@ const Account = ({navigation}) => {
       .then(response => {
         setAccountData(response.data.data);
         console.log(response.data.data);
-        setAccountData(false);
+        setRefresh(false);
       })
       .catch(error => alert(error));
   };

@@ -13,6 +13,9 @@ import {
   Divider,
   RadioButton,
   Button,
+  Portal,
+  Paragraph,
+  Dialog,
   ActivityIndicator,
   FAB,
 } from 'react-native-paper';
@@ -43,9 +46,9 @@ const Quiz = ({route, navigation}) => {
   const [sendButton, setSendButton] = useState(false);
   const userData = {
     name: authContext.userData.name,
-    email: authContext.userData.email + 'ffs',
+    email: authContext.userData.email,
   };
-
+  const [errorMessage, setErrorMessage] = useState(false);
   useEffect(() => {
     getQuestions();
   }, [getQuestions]);
@@ -59,7 +62,7 @@ const Quiz = ({route, navigation}) => {
       ),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questions]);
+  }, [questions, errorMessage]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getQuestions = useCallback(() => {
@@ -77,10 +80,12 @@ const Quiz = ({route, navigation}) => {
     const surveyData = {
       survey: userData,
       responses: checked,
+      userID: authContext.userData.id,
     };
     console.log(surveyData);
     Axios.post(HTTP.SURVEY_URL + surveyID, surveyData)
       .then(response => {
+        console.log(response);
         if (response.status === 200) {
           navigation.navigate('Result', {
             title: title,
@@ -88,7 +93,8 @@ const Quiz = ({route, navigation}) => {
         }
       })
       .catch(error => {
-        console.log(error.message);
+        setErrorMessage(true);
+        console.log(error);
       });
   };
 
@@ -141,6 +147,22 @@ const Quiz = ({route, navigation}) => {
 
   return (
     <View style={styles.View}>
+      {errorMessage ? (
+        <Portal>
+          <Dialog
+            visible={errorMessage}
+            onDismiss={() => {
+              setErrorMessage(false);
+            }}>
+            <Dialog.Content>
+              <Paragraph>
+                Malesef her kullanıcının bir kez cevaplama hakkı vardır :(
+              </Paragraph>
+            </Dialog.Content>
+          </Dialog>
+        </Portal>
+      ) : null}
+
       {loaded ? (
         <FlatList
           data={questions}
